@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>K.L. Chandana — Portfolio</title>
+<style>
+  :root{
+    --ink:#1b1b1d;
+    --paper:#faf8f4;
+    --line:#d8d3c8;
+    --accent:#3a5a40;
+    --accent-soft:#e7ede6;
+    --muted:#6b6a63;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;overflow:hidden;}
+  body{
+    background:var(--ink);
+    color:var(--ink);
+    font-family:'Georgia','Iowan Old Style',serif;
+    line-height:1.5;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .deck{
+    flex:1;
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .deck::-webkit-scrollbar{display:none;}
+
+  .card{
+    flex:0 0 100%;
+    width:100%;
+    height:100%;
+    scroll-snap-align:start;
+    background:var(--paper);
+    display:flex;
+    flex-direction:column;
+    padding:56px 26px 90px;
+    overflow-y:auto;
+  }
+
+  .kicker{
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:8px;
+  }
+
+  /* Hero */
+  .card.hero h1{font-size:36px;font-weight:400;line-height:1.1;margin-bottom:14px;}
+  .card.hero p.tagline{
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    font-size:15px;color:var(--muted);max-width:480px;margin-bottom:24px;
+  }
+  .card.hero .contact{
+    display:flex;flex-direction:column;gap:11px;
+    font-family:'Helvetica Neue',Arial,sans-serif;font-size:13.5px;
+    margin-bottom:20px;
+  }
+  .card.hero .contact a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--accent);width:fit-content;padding-bottom:1px;}
+  .card.hero .summary{
+    font-size:14.5px;color:#3c3b38;border-top:1px solid var(--line);padding-top:18px;
+  }
+
+  h2.section-title{
+    font-size:25px;font-weight:400;margin-bottom:24px;
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+
+  .entry{margin-bottom:22px;}
+  .entry:last-child{margin-bottom:0;}
+  .entry-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px 14px;}
+  .entry-head h3{font-size:17px;font-weight:700;}
+  .entry-head .when{font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;color:var(--muted);white-space:nowrap;}
+  .entry p.role{font-style:italic;color:var(--muted);margin-top:2px;font-size:14px;}
+  .entry ul{margin-top:8px;padding-left:18px;}
+  .entry li{margin-bottom:6px;font-size:14px;}
+
+  .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .tag{
+    font-family:'Helvetica Neue',Arial,sans-serif;font-size:11.5px;
+    background:var(--accent-soft);color:#2c3b2e;
+    padding:5px 10px;border-radius:3px;
+  }
+
+  .skills-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;
+    font-family:'Helvetica Neue',Arial,sans-serif;font-size:13.5px;
+  }
+  .skills-grid div{padding:9px 0;border-bottom:1px solid var(--line);}
+  .skills-cat{margin-bottom:18px;}
+  .skills-cat .cat-label{font-family:'Helvetica Neue',Arial,sans-serif;font-size:11.5px;letter-spacing:0.04em;color:var(--accent);margin-bottom:8px;text-transform:uppercase;}
+
+  .cert-list li{list-style:none;padding-left:18px;position:relative;margin-bottom:10px;font-size:14px;}
+  .cert-list li::before{content:"—";position:absolute;left:0;color:var(--accent);}
+
+  .note-box{
+    background:var(--accent-soft);border-left:3px solid var(--accent);
+    padding:16px 18px;font-size:14px;color:#2c3b2e;margin-bottom:14px;
+  }
+
+  /* Projects */
+  .project-card{
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:16px 18px;
+    margin-bottom:14px;
+    cursor:pointer;
+    transition:border-color 0.2s, transform 0.15s;
+    background:#fff;
+  }
+  .project-card:active{transform:scale(0.98);}
+  .project-card:hover{border-color:var(--accent);}
+  .project-card h3{font-size:16.5px;font-weight:700;margin-bottom:5px;}
+  .project-card .stack{
+    font-family:'Helvetica Neue',Arial,sans-serif;font-size:11.5px;color:var(--accent);margin-bottom:8px;
+  }
+  .project-card .preview{font-size:13.5px;color:var(--muted);}
+  .project-card .tap-more{
+    font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;color:var(--accent);
+    margin-top:10px;display:flex;align-items:center;gap:4px;
+  }
+
+  /* Modal */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(20,20,18,0.72);
+    display:none;align-items:flex-end;justify-content:center;z-index:50;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{
+    background:var(--paper);width:100%;max-width:560px;
+    max-height:82vh;overflow-y:auto;
+    border-radius:16px 16px 0 0;
+    padding:28px 26px 40px;
+    position:relative;
+    transform:translateY(100%);
+    transition:transform 0.28s ease;
+  }
+  .modal-overlay.open .modal{transform:translateY(0);}
+  .modal-handle{width:36px;height:4px;background:var(--line);border-radius:2px;margin:0 auto 20px;}
+  .modal h3{font-size:21px;margin-bottom:6px;}
+  .modal .stack{font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;color:var(--accent);margin-bottom:16px;}
+  .modal ul{padding-left:18px;}
+  .modal li{margin-bottom:10px;font-size:14.5px;}
+  .modal-close{
+    position:absolute;top:16px;right:20px;
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    font-size:13px;color:var(--muted);
+    background:none;border:none;cursor:pointer;
+  }
+
+  /* Progress dots */
+  .dots{
+    position:fixed;bottom:22px;left:0;right:0;
+    display:flex;justify-content:center;gap:8px;
+    pointer-events:none;z-index:10;
+  }
+  .dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.28);transition:background 0.25s, transform 0.25s;}
+  .dot.active{background:var(--paper);transform:scale(1.3);}
+
+  .swipe-hint{
+    position:fixed;top:18px;right:20px;
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    font-size:11px;letter-spacing:0.04em;color:rgba(255,255,255,0.55);
+    animation:fadeOut 3.5s forwards;pointer-events:none;z-index:10;
+  }
+  @keyframes fadeOut{0%{opacity:1;}70%{opacity:1;}100%{opacity:0;}}
+</style>
+</head>
+<body>
+
+<div class="swipe-hint">SWIPE →</div>
+
+<div class="deck" id="deck">
+
+  <section class="card hero">
+    <div class="kicker">Portfolio</div>
+    <h1>K.L. Chandana</h1>
+    <p class="tagline">Incoming M.S. Computer Science student at Arizona State University, building full-stack systems and exploring machine learning — with 15 years of classical vocal training shaping the discipline behind the code.</p>
+    <div class="contact">
+      <a href="mailto:koyyalakshmichandana@gmail.com">koyyalakshmichandana@gmail.com</a>
+      <a href="tel:+14808537273">+1 480 853 7273</a>
+      <a href="https://linkedin.com/in/chandana-koyya" target="_blank">linkedin.com/in/chandana-koyya</a>
+      <a href="https://github.com/c12-o" target="_blank">github.com/c12-o</a>
+    </div>
+    <p class="summary">Strong foundation in algorithms, data structures, software engineering, and machine learning. Experienced designing full-stack applications in Python, Java, and JavaScript, and collaborating in Agile teams. Focused on clean, efficient code and scalable systems.</p>
+  </section>
+
+  <section class="card">
+    <div class="kicker">01</div>
+    <h2 class="section-title">Education</h2>
+    <div class="entry">
+      <div class="entry-head"><h3>Arizona State University</h3><div class="when">Exp. May 2028</div></div>
+      <p class="role">M.S. Computer Science</p>
+    </div>
+    <div class="entry">
+      <div class="entry-head"><h3>KLEF University</h3><div class="when">2022 – 2026</div></div>
+      <p class="role">B.Tech, CS &amp; Engineering (Honors) — CGPA 9.1/10</p>
+    </div>
+    <div class="tag-row">
+      <span class="tag">Algorithms &amp; Data Structures</span>
+      <span class="tag">Artificial Intelligence</span>
+      <span class="tag">Machine Learning</span>
+      <span class="tag">Database Systems</span>
+      <span class="tag">Operating Systems</span>
+      <span class="tag">Computer Networks</span>
+      <span class="tag">OOP</span>
+      <span class="tag">Software Engineering</span>
+      <span class="tag">Discrete Mathematics</span>
+      <span class="tag">Probability &amp; Statistics</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="kicker">02</div>
+    <h2 class="section-title">Experience</h2>
+    <div class="entry">
+      <div class="entry-head"><h3>Trundl Labs</h3><div class="when">May – Aug 2024</div></div>
+      <p class="role">Product Team Intern — Atlassian Platinum Partner</p>
+      <ul>
+        <li>Analyzed user behavior and product feedback to identify software improvements and optimize workflows.</li>
+        <li>Collaborated with engineers, designers, and PMs in Agile sprints to deliver new product features.</li>
+        <li>Conducted user testing and translated findings into actionable engineering requirements.</li>
+        <li>Created technical documentation and onboarding guides using Jira and Confluence.</li>
+        <li>Managed multiple project priorities while maintaining accuracy and meeting deadlines.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" id="projects-card">
+    <div class="kicker">03</div>
+    <h2 class="section-title">Projects</h2>
+
+    <div class="project-card" data-project="stock">
+      <h3>Real-Time Stock Market Analytics Platform</h3>
+      <div class="stack">Python · FastAPI · React · PostgreSQL</div>
+      <div class="preview">Real-time platform to process and visualize historical stock data with live financial indicators.</div>
+      <div class="tap-more">Tap for details →</div>
+    </div>
+
+    <div class="project-card" data-project="backtester">
+      <h3>Algorithmic Trading Strategy Backtester</h3>
+      <div class="stack">Python · Pandas · NumPy · Matplotlib</div>
+      <div class="preview">Backtesting engine to evaluate trading strategies against historical market data.</div>
+      <div class="tap-more">Tap for details →</div>
+    </div>
+
+    <div class="project-card" data-project="shortener">
+      <h3>Distributed URL Shortener</h3>
+      <div class="stack">Node.js · Express.js · MongoDB · Redis</div>
+      <div class="preview">Scalable URL shortening service with Redis caching and collision-resistant encoding.</div>
+      <div class="tap-more">Tap for details →</div>
+    </div>
+
+    <div class="project-card" data-project="resumeai">
+      <h3>AI Resume Screening System</h3>
+      <div class="stack">Python · Flask · Sentence Transformers · Scikit-learn</div>
+      <div class="preview">NLP app that ranks resumes against job descriptions using semantic similarity.</div>
+      <div class="tap-more">Tap for details →</div>
+    </div>
+
+    <div class="project-card" data-project="compression">
+      <h3>Parallel File Compression Utility</h3>
+      <div class="stack">Java · Multithreading</div>
+      <div class="preview">Multithreaded compression tool optimized for multi-core processors.</div>
+      <div class="tap-more">Tap for details →</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="kicker">04</div>
+    <h2 class="section-title">Skills</h2>
+    <div class="skills-cat">
+      <div class="cat-label">Languages</div>
+      <div class="skills-grid"><div>Python</div><div>Java</div><div>JavaScript</div><div>SQL</div></div>
+    </div>
+    <div class="skills-cat">
+      <div class="cat-label">Web &amp; Data</div>
+      <div class="skills-grid"><div>HTML/CSS</div><div>React.js</div><div>Node.js</div><div>Express.js</div><div>MongoDB</div></div>
+    </div>
+    <div class="skills-cat">
+      <div class="cat-label">Tools</div>
+      <div class="skills-grid"><div>Git / GitHub</div><div>Jira</div><div>Confluence</div><div>Figma</div></div>
+    </div>
+    <div class="skills-cat">
+      <div class="cat-label">Core Concepts</div>
+      <div class="tag-row">
+        <span class="tag">Data Structures &amp; Algorithms</span>
+        <span class="tag">OOP</span>
+        <span class="tag">REST APIs</span>
+        <span class="tag">Agile Development</span>
+        <span class="tag">Problem Solving</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="kicker">05</div>
+    <h2 class="section-title">Certifications</h2>
+    <ul class="cert-list">
+      <li>Oracle Cloud Infrastructure DevOps Professional</li>
+      <li>Microsoft DevOps Engineer Expert</li>
+      <li>AWS Certified Cloud Practitioner</li>
+      <li>Salesforce AI Associate</li>
+      <li>Cambridge Linguaskill (B2)</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <div class="kicker">06</div>
+    <h2 class="section-title">Leadership &amp; Activities</h2>
+    <div class="entry">
+      <div class="entry-head"><h3>INA Club</h3></div>
+      <p class="role">Event Management Team</p>
+      <ul>
+        <li>Coordinated technical events, workshops, and student activities involving large participant groups.</li>
+        <li>Collaborated with faculty and volunteers to ensure efficient event execution.</li>
+        <li>Managed registrations, logistics, and participant support in fast-paced environments.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-head"><h3>National Service Scheme (NSS)</h3></div>
+      <p class="role">Volunteer</p>
+      <ul>
+        <li>Participated in community outreach initiatives and awareness programs.</li>
+        <li>Collaborated with volunteers to organize campus service activities.</li>
+      </ul>
+    </div>
+    <div class="note-box" style="margin-top:20px;">
+      Trained in Carnatic classical vocal music for 15 years, with performances broadcast on radio and television and in group ensembles.
+    </div>
+  </section>
+
+</div>
+
+<div class="dots" id="dots"></div>
+
+<!-- Project detail modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <div class="modal-handle"></div>
+    <button class="modal-close" id="modalClose">Close ✕</button>
+    <h3 id="modalTitle"></h3>
+    <div class="stack" id="modalStack"></div>
+    <ul id="modalList"></ul>
+  </div>
+</div>
+
+<script>
+  const deck = document.getElementById('deck');
+  const cards = document.querySelectorAll('.card');
+  const dotsWrap = document.getElementById('dots');
+
+  cards.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    dotsWrap.appendChild(d);
+  });
+  const dots = document.querySelectorAll('.dot');
+
+  deck.addEventListener('scroll', () => {
+    const idx = Math.round(deck.scrollLeft / deck.clientWidth);
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  }, { passive: true });
+
+  const projectData = {
+    stock: {
+      title: "Real-Time Stock Market Analytics Platform",
+      stack: "Python · FastAPI · React · PostgreSQL",
+      bullets: [
+        "Developed a real-time analytics platform to process and visualize historical stock market data.",
+        "Implemented financial indicators including Moving Average, RSI, MACD, Bollinger Bands, and Volatility using NumPy and Pandas.",
+        "Optimized data processing pipelines to efficiently analyze large datasets.",
+        "Built REST APIs with FastAPI and an interactive React dashboard for financial data visualization.",
+        "Integrated PostgreSQL for scalable storage and retrieval of market data."
+      ]
+    },
+    backtester: {
+      title: "Algorithmic Trading Strategy Backtester",
+      stack: "Python · Pandas · NumPy · Matplotlib",
+      bullets: [
+        "Designed a backtesting engine to evaluate algorithmic trading strategies on historical market data.",
+        "Implemented momentum, moving-average crossover, and mean-reversion strategies.",
+        "Calculated portfolio performance metrics including Sharpe Ratio, Maximum Drawdown, CAGR, and cumulative returns.",
+        "Generated detailed visualizations to compare strategy performance against benchmark indices.",
+        "Improved simulation efficiency through vectorized computations using NumPy."
+      ]
+    },
+    shortener: {
+      title: "Distributed URL Shortener",
+      stack: "Node.js · Express.js · MongoDB · Redis",
+      bullets: [
+        "Developed a scalable URL shortening service supporting efficient creation and retrieval of shortened links.",
+        "Implemented collision-resistant Base62 encoding for unique URL generation.",
+        "Integrated Redis caching to significantly reduce database lookup latency.",
+        "Designed RESTful APIs for URL creation, redirection, analytics, and expiration management.",
+        "Utilized MongoDB indexing to improve query performance for large datasets."
+      ]
+    },
+    resumeai: {
+      title: "AI Resume Screening System",
+      stack: "Python · Flask · Sentence Transformers · Scikit-learn",
+      bullets: [
+        "Built an NLP-based application to rank resumes against job descriptions using semantic similarity.",
+        "Generated sentence embeddings with transformer models and computed cosine similarity scores.",
+        "Automated candidate ranking to improve recruitment efficiency.",
+        "Developed a Flask web application supporting resume uploads and ranking visualization.",
+        "Applied Scikit-learn preprocessing techniques to improve matching accuracy."
+      ]
+    },
+    compression: {
+      title: "Parallel File Compression Utility",
+      stack: "Java · Multithreading",
+      bullets: [
+        "Developed a multithreaded file compression application using Java concurrency utilities.",
+        "Parallelized file processing to improve execution speed on multi-core processors.",
+        "Optimized memory utilization while processing large files.",
+        "Implemented robust exception handling and benchmarking for performance evaluation.",
+        "Improved throughput through concurrent task scheduling and synchronization mechanisms."
+      ]
+    }
+  };
+
+  const overlay = document.getElementById('modalOverlay');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalStack = document.getElementById('modalStack');
+  const modalList = document.getElementById('modalList');
+
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const data = projectData[card.dataset.project];
+      modalTitle.textContent = data.title;
+      modalStack.textContent = data.stack;
+      modalList.innerHTML = data.bullets.map(b => `<li>${b}</li>`).join('');
+      overlay.classList.add('open');
+    });
+  });
+
+  function closeModal(){ overlay.classList.remove('open'); }
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e) => { if(e.target === overlay) closeModal(); });
+</script>
+
+</body>
+</html>
