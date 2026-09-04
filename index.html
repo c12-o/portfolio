@@ -136,7 +136,13 @@
   .project-card h3{font-size:17px;margin-bottom:8px;}
   .project-card .stack{font-size:12px;color:var(--accent);margin-bottom:10px;}
   .project-card p{color:var(--muted);font-size:13.5px;flex:1;}
-  .project-card .more{font-size:12.5px;color:var(--accent);margin-top:14px;font-weight:600;}
+.project-card .card-links{display:flex;align-items:center;justify-content:space-between;margin-top:14px;flex-wrap:wrap;gap:10px;}
+.project-card .more{font-size:12.5px;color:var(--accent);font-weight:600;}
+.project-card .demo-link{
+  font-size:12px;font-weight:700;color:#0c0f14;background:var(--accent);
+  padding:6px 12px;border-radius:6px;transition:transform 0.15s, opacity 0.15s;
+}
+.project-card .demo-link:hover{transform:translateY(-2px);opacity:0.9;}
 
   /* CONTACT */
   .contact-box{
@@ -487,10 +493,17 @@
       <div class="icon"><i class="fa-solid ${p.icon}"></i></div>
       <h3>${p.title}</h3>
       <div class="stack">${p.stack}</div>
-      <p>${p.preview}</p>
-      <div class="more">View details →</div>
+     <p>${p.preview}</p>
+<div class="card-links">
+  <span class="more">View details →</span>
+  ${p.demoUrl ? `<a href="${p.demoUrl}" target="_blank" rel="noopener" class="demo-link">Live Demo ↗</a>` : ''}
+</div>
     `;
     card.addEventListener('click', () => openModal(p));
+    const demoEl = card.querySelector('.demo-link');
+if (demoEl) {
+  demoEl.addEventListener('click', (e) => e.stopPropagation());
+}
     grid.appendChild(card);
     io.observe(card);
   });
