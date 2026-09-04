@@ -411,6 +411,7 @@
       title: "Real-Time Stock Market Analytics Platform",
       stack: "Python · FastAPI · React · PostgreSQL",
       icon: "fa-chart-line",
+      demoUrl: "https://YOUR-NETLIFY-URL.netlify.app",
       preview: "Real-time platform to process and visualize historical stock data with live financial indicators.",
       bullets: [
         "Developed a real-time analytics platform to process and visualize historical stock market data.",
@@ -499,12 +500,23 @@
   const modalStack = document.getElementById('modalStack');
   const modalList = document.getElementById('modalList');
 
-  function openModal(p){
-    modalTitle.textContent = p.title;
-    modalStack.textContent = p.stack;
-    modalList.innerHTML = p.bullets.map(b => `<li>${b}</li>`).join('');
-    overlay.classList.add('open');
+function openModal(p){
+  modalTitle.textContent = p.title;
+  modalStack.textContent = p.stack;
+  modalList.innerHTML = p.bullets.map(b => `<li>${b}</li>`).join('');
+  const existingLink = document.getElementById('modalDemoLink');
+  if (existingLink) existingLink.remove();
+  if (p.demoUrl) {
+    const link = document.createElement('a');
+    link.id = 'modalDemoLink';
+    link.href = p.demoUrl;
+    link.target = '_blank';
+    link.textContent = '🔗 View Live Demo';
+    link.style.cssText = 'display:inline-block;margin-top:16px;padding:10px 18px;background:#4d9fff;color:#0a0e14;border-radius:6px;font-weight:600;text-decoration:none;font-size:13.5px;';
+    modalList.insertAdjacentElement('afterend', link);
   }
+  overlay.classList.add('open');
+}
   document.getElementById('modalClose').addEventListener('click', () => overlay.classList.remove('open'));
   overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('open'); });
 </script>
