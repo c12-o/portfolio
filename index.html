@@ -174,21 +174,37 @@
   .tilt:hover::after,.tilt:focus-visible::after{opacity:1;}
   .tilt:hover,.tilt:focus-visible{border-color:var(--accent);box-shadow:0 18px 50px rgba(0,0,0,0.35), 0 0 0 1px rgba(124,158,255,0.25), 0 0 40px rgba(124,158,255,0.12);}
 
-  /* Featured design card */
+  /* Design work cards */
+  .design-group + .design-group{margin-top:72px;}
+  .design-group-title{font-size:20px;font-weight:700;margin-bottom:22px;}
+  .concepts-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
+  .interfaces-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
   .design-card{
-    display:grid;grid-template-columns:1.6fr 1fr;align-items:stretch;
+    display:flex;flex-direction:column;
     background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;
   }
-  .design-card .thumb{background:#1a0b1f;aspect-ratio:16/10;overflow:hidden;}
-  .design-card .thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s ease;}
+  .design-card .thumb{background:#1a0b1f;aspect-ratio:16/10;overflow:hidden;border-bottom:1px solid var(--line);}
+  .design-card .thumb img{width:100%;height:100%;object-fit:cover;object-position:top left;display:block;transition:transform 0.6s ease;}
   .design-card:hover .thumb img{transform:scale(1.03);}
-  .design-card .body{padding:40px;display:flex;flex-direction:column;justify-content:center;}
-  .design-card h3{font-size:30px;margin-bottom:8px;letter-spacing:-0.01em;}
-  .design-card .stack{font-size:13px;color:var(--accent);margin-bottom:16px;}
-  .design-card p{color:var(--muted);font-size:16px;}
-  .design-card .more{margin-top:26px;font-size:14.5px;color:var(--accent);font-weight:600;display:inline-flex;gap:8px;align-items:center;}
+  .design-card .body{padding:28px;display:flex;flex-direction:column;flex:1;}
+  .design-card h3{font-size:24px;margin-bottom:8px;letter-spacing:-0.01em;}
+  .design-card .stack{font-size:13px;color:var(--accent);margin-bottom:12px;}
+  .design-card p{color:var(--muted);font-size:15px;flex:1;}
+  .design-card .label{
+    align-self:flex-start;font-size:12px;font-weight:600;line-height:1.4;color:var(--accent);
+    background:var(--accent-soft);padding:5px 11px;border-radius:999px;margin-bottom:14px;
+  }
+  .design-card .more{margin-top:22px;font-size:14.5px;color:var(--accent);font-weight:600;display:inline-flex;gap:8px;align-items:center;}
   .design-card .more i{transition:transform 0.2s;}
   .design-card:hover .more i{transform:translateX(4px);}
+  .card-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;position:relative;z-index:1;}
+  .btn-sm{padding:9px 16px;font-size:13.5px;}
+  button.btn{font:inherit;font-weight:600;font-size:13.5px;cursor:pointer;background:rgba(12,15,20,0.5);}
+  .interface-card .body{padding:20px;}
+  .interface-card h3{font-size:17px;}
+  .interface-card .label{font-size:11.5px;padding:4px 10px;margin-bottom:12px;}
+  .interface-card p{font-size:13.5px;}
+  .project-card.spotlight{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft), 0 0 40px rgba(124,158,255,0.18);}
 
   .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;}
   .project-card{
@@ -241,13 +257,18 @@
   .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease, transform 0.7s cubic-bezier(.2,.7,.2,1);}
   .reveal.visible{opacity:1;transform:translateY(0);}
 
+  @media (max-width:1000px){
+    .interfaces-grid{grid-template-columns:repeat(2,1fr);}
+  }
+
   @media (max-width:820px){
     .about-grid{grid-template-columns:1fr;}
     .skills-wrap{grid-template-columns:repeat(2,1fr);}
     .projects-grid{grid-template-columns:1fr;}
-    .design-card{grid-template-columns:1fr;}
-    .design-card .body{padding:28px;}
-    .design-card h3{font-size:24px;}
+    .concepts-grid,.interfaces-grid{grid-template-columns:1fr;}
+    .design-card .body{padding:24px;}
+    .design-card h3{font-size:22px;}
+    .interface-card h3{font-size:17px;}
     .hero h1{font-size:40px;}
     .hero .role{font-size:20px;}
     .name-btn .note{display:none;}
@@ -318,15 +339,101 @@
   <div class="container">
     <div class="eyebrow reveal">What I've Designed</div>
     <h2 class="heading reveal">Design Work</h2>
-    <a href="resonance.html" class="design-card tilt reveal" data-tilt="3">
-      <div class="thumb"><img src="images/resonance/01-arrival.jpg" alt="Resonance Arrival screen: a plum glass welcome panel with a gold Begin button floating in a softly lit music studio" loading="lazy"></div>
-      <div class="body">
-        <h3>Resonance</h3>
-        <div class="stack">VR / XR UI · Figma · Design System · Prototype</div>
-        <p>A VR interface concept for learning music by creating it. Full user journey, design system, and clickable prototype.</p>
-        <span class="more">Read case study <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+
+    <div class="design-group">
+      <h3 class="design-group-title reveal">Design Concepts</h3>
+      <div class="concepts-grid">
+        <a href="resonance.html" class="design-card tilt reveal" data-tilt="3">
+          <div class="thumb"><img src="images/resonance/01-arrival.jpg" alt="Resonance Arrival screen: a plum glass welcome panel with a gold Begin button floating in a softly lit music studio" loading="lazy"></div>
+          <div class="body">
+            <span class="label">VR concept</span>
+            <h3>Resonance</h3>
+            <div class="stack">VR / XR UI · Figma · Design System · Prototype</div>
+            <p>A VR interface concept for learning music by creating it. Full user journey, design system, and clickable prototype.</p>
+            <span class="more">Read case study <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+          </div>
+        </a>
+        <article class="design-card tilt reveal" data-tilt="3">
+          <div class="thumb"><img src="images/pipeline-pulse/01-issue-view.jpg" alt="Pipeline Pulse issue view: an issue page with a side panel showing Dev and Staging deployed, Production not deployed, and the latest build failed" loading="lazy"></div>
+          <div class="body">
+            <span class="label">Concept inspired by my internship at Trundl Labs, built on the Atlassian Design System</span>
+            <h3>Pipeline Pulse</h3>
+            <div class="stack">Jira app concept · Figma · Prototype</div>
+            <p>Shows builds and deployments linked to each issue, so a team can see at a glance whether a feature is live.</p>
+            <div class="card-actions">
+              <a href="https://www.figma.com/proto/wYqO4lnb7Bky0xKkqSpZ7w/Untitled?page-id=36%3A2&amp;node-id=51-743&amp;starting-point-node-id=51%3A743&amp;scaling=scale-down" target="_blank" rel="noopener" class="btn btn-primary btn-sm">View prototype <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i><span class="sr-only"> (opens in a new tab)</span></a>
+            </div>
+          </div>
+        </article>
+        <!-- Fest concept card goes here -->
       </div>
-    </a>
+    </div>
+
+    <div class="design-group">
+      <h3 class="design-group-title reveal">Project Interfaces</h3>
+      <div class="interfaces-grid">
+        <article class="design-card interface-card tilt reveal" data-tilt="4">
+          <div class="thumb"><img src="images/projects/resume-screening.jpg" alt="AI Resume Screening prototype: paste a job description step with a progress stepper" loading="lazy"></div>
+          <div class="body">
+            <span class="label">UI concept · Figma</span>
+            <h3>AI Resume Screening</h3>
+            <p>NLP app that ranks resumes against job descriptions using semantic similarity.</p>
+            <div class="card-actions">
+              <a href="https://www.figma.com/proto/wYqO4lnb7Bky0xKkqSpZ7w/Untitled?page-id=36%3A2&amp;node-id=38-50&amp;starting-point-node-id=38%3A50&amp;scaling=scale-down" target="_blank" rel="noopener" class="btn btn-primary btn-sm">View prototype<span class="sr-only"> of AI Resume Screening (opens in a new tab)</span></a>
+              <button type="button" class="btn btn-outline btn-sm" data-view-project="resumeai">View project<span class="sr-only">: AI Resume Screening</span></button>
+            </div>
+          </div>
+        </article>
+        <article class="design-card interface-card tilt reveal" data-tilt="4">
+          <div class="thumb"><img src="images/projects/stock-analytics.jpg" alt="Stock Market Analytics prototype: a list of stocks with last close and daily change" loading="lazy"></div>
+          <div class="body">
+            <span class="label">UI concept · Figma</span>
+            <h3>Stock Market Analytics</h3>
+            <p>Real-time platform to process and visualize historical stock data with live financial indicators.</p>
+            <div class="card-actions">
+              <a href="https://www.figma.com/proto/wYqO4lnb7Bky0xKkqSpZ7w/Untitled?page-id=36%3A2&amp;node-id=41-204&amp;starting-point-node-id=41%3A204&amp;scaling=scale-down" target="_blank" rel="noopener" class="btn btn-primary btn-sm">View prototype<span class="sr-only"> of Stock Market Analytics (opens in a new tab)</span></a>
+              <button type="button" class="btn btn-outline btn-sm" data-view-project="stock">View project<span class="sr-only">: Stock Market Analytics</span></button>
+            </div>
+          </div>
+        </article>
+        <article class="design-card interface-card tilt reveal" data-tilt="4">
+          <div class="thumb"><img src="images/projects/backtester.jpg" alt="Strategy Backtester prototype: choosing between momentum, moving-average crossover and mean reversion strategies" loading="lazy"></div>
+          <div class="body">
+            <span class="label">UI concept · Figma</span>
+            <h3>Algorithmic Trading Strategy Backtester</h3>
+            <p>Backtesting engine to evaluate trading strategies against historical market data.</p>
+            <div class="card-actions">
+              <a href="https://www.figma.com/proto/wYqO4lnb7Bky0xKkqSpZ7w/Untitled?page-id=36%3A2&amp;node-id=43-428&amp;starting-point-node-id=43%3A428&amp;scaling=scale-down" target="_blank" rel="noopener" class="btn btn-primary btn-sm">View prototype<span class="sr-only"> of Algorithmic Trading Strategy Backtester (opens in a new tab)</span></a>
+              <button type="button" class="btn btn-outline btn-sm" data-view-project="backtester">View project<span class="sr-only">: Algorithmic Trading Strategy Backtester</span></button>
+            </div>
+          </div>
+        </article>
+        <article class="design-card interface-card tilt reveal" data-tilt="4">
+          <div class="thumb"><img src="images/projects/url-shortener.jpg" alt="URL Shortener prototype: a form to shorten a long URL with an expiration setting" loading="lazy"></div>
+          <div class="body">
+            <span class="label">UI concept · Figma</span>
+            <h3>Distributed URL Shortener</h3>
+            <p>Scalable URL shortening service with Redis caching and collision-resistant encoding.</p>
+            <div class="card-actions">
+              <a href="https://www.figma.com/proto/wYqO4lnb7Bky0xKkqSpZ7w/Untitled?page-id=36%3A2&amp;node-id=44-434&amp;starting-point-node-id=44%3A434&amp;scaling=scale-down" target="_blank" rel="noopener" class="btn btn-primary btn-sm">View prototype<span class="sr-only"> of Distributed URL Shortener (opens in a new tab)</span></a>
+              <button type="button" class="btn btn-outline btn-sm" data-view-project="shortener">View project<span class="sr-only">: Distributed URL Shortener</span></button>
+            </div>
+          </div>
+        </article>
+        <article class="design-card interface-card tilt reveal" data-tilt="4">
+          <div class="thumb"><img src="images/projects/file-compression.jpg" alt="Parallel File Compression prototype: selecting four large files and the number of worker threads" loading="lazy"></div>
+          <div class="body">
+            <span class="label">UI concept · Figma</span>
+            <h3>Parallel File Compression Utility</h3>
+            <p>Multithreaded compression tool optimized for multi-core processors.</p>
+            <div class="card-actions">
+              <a href="https://www.figma.com/proto/wYqO4lnb7Bky0xKkqSpZ7w/Untitled?page-id=36%3A2&amp;node-id=45-510&amp;starting-point-node-id=45%3A510&amp;scaling=scale-down" target="_blank" rel="noopener" class="btn btn-primary btn-sm">View prototype<span class="sr-only"> of Parallel File Compression Utility (opens in a new tab)</span></a>
+              <button type="button" class="btn btn-outline btn-sm" data-view-project="compression">View project<span class="sr-only">: Parallel File Compression Utility</span></button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -744,6 +851,7 @@
   projectData.forEach(p => {
     const card = document.createElement('div');
     card.className = 'project-card tilt reveal';
+    card.dataset.id = p.id;
     card.tabIndex = 0;
     card.setAttribute('role', 'button');
     card.setAttribute('aria-haspopup', 'dialog');
@@ -777,6 +885,20 @@
     document.getElementById('contact').classList.remove('alt');
     document.querySelector('.hero .cta-row a[href="#projects"]').setAttribute('href', '#design');
   }
+
+  // "View project" on interface cards: scroll to the project's card, then open its details
+  document.querySelectorAll('[data-view-project]').forEach(b => {
+    const p = projectData.find(x => x.id === b.dataset.viewProject);
+    const card = grid.querySelector(`[data-id="${b.dataset.viewProject}"]`);
+    if (!p || !card) { b.hidden = true; return; }
+    b.addEventListener('click', () => {
+      card.classList.add('visible');
+      card.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+      card.classList.add('spotlight');
+      setTimeout(() => card.classList.remove('spotlight'), 2400);
+      setTimeout(() => openModal(p, card), reduceMotion ? 0 : 650);
+    });
+  });
 
   // ---- Modal ----
   const overlay = document.getElementById('modalOverlay');
