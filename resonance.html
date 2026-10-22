@@ -60,15 +60,61 @@
   .btn-outline:hover{border-color:var(--accent);color:var(--accent);}
 
   .cs-hero{
-    padding:150px 0 70px;
+    padding:108px 0 70px;
     background:
       radial-gradient(circle at 15% 20%, rgba(124,158,255,0.10), transparent 40%),
       radial-gradient(circle at 85% 75%, rgba(124,158,255,0.08), transparent 40%);
   }
   .cs-hero h1{font-size:46px;font-weight:800;line-height:1.15;margin-bottom:14px;max-width:860px;}
   .cs-hero h1 .accent{color:var(--accent);}
-  .cs-hero .subtitle{color:var(--muted);font-size:16px;margin-bottom:32px;}
-  .cs-hero .cta-row{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:48px;}
+  .cs-hero .subtitle{color:var(--muted);font-size:16px;margin-bottom:24px;}
+  .cs-hero .cta-row{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:24px;}
+
+  .glance{
+    display:grid;grid-template-columns:1fr 1.2fr 1fr 2fr;
+    background:var(--card);border:1px solid var(--line);border-radius:10px;
+    margin-bottom:32px;
+  }
+  .glance div{padding:16px 20px;border-left:1px solid var(--line);}
+  .glance div:first-child{border-left:none;}
+  .glance dt{font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+  .glance dd{font-size:14.5px;font-weight:600;line-height:1.45;}
+
+  .scroll-cue{
+    position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:90;
+    display:flex;align-items:center;gap:10px;
+    padding:9px 18px;border-radius:999px;
+    background:rgba(12,15,20,0.78);backdrop-filter:blur(8px);border:1px solid var(--line);
+    color:var(--text);font-size:13.5px;font-weight:600;
+    transition:opacity 0.4s ease;
+  }
+  .scroll-cue i{color:var(--accent);animation:cue-bounce 1.8s ease-in-out infinite;}
+  .scroll-cue.gone{opacity:0;pointer-events:none;}
+  @keyframes cue-bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(4px);}}
+
+  .subnav{
+    position:fixed;top:70px;left:0;right:0;z-index:95;
+    background:rgba(17,21,28,0.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    transform:translateY(-100%);opacity:0;visibility:hidden;
+    transition:transform 0.25s ease, opacity 0.25s ease, visibility 0s linear 0.25s;
+  }
+  .subnav.show{transform:translateY(0);opacity:1;visibility:visible;transition:transform 0.25s ease, opacity 0.25s ease;}
+  .subnav ul{display:flex;gap:6px;height:48px;align-items:center;overflow-x:auto;scrollbar-width:none;}
+  .subnav ul::-webkit-scrollbar{display:none;}
+  .subnav a{
+    display:block;white-space:nowrap;padding:6px 14px;border-radius:6px;
+    color:var(--muted);font-size:13.5px;font-weight:600;transition:color 0.2s, background 0.2s;
+  }
+  .subnav a:hover{color:var(--text);}
+  .subnav a.active{color:var(--accent);background:var(--accent-soft);}
+  section[id]{scroll-margin-top:118px;}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .scroll-cue i{animation:none;}
+    .subnav,.subnav.show,.scroll-cue,.reveal{transition:none;}
+  }
   .cs-hero .cta-note{color:var(--muted);font-size:13.5px;}
   .hero-shot{border-radius:12px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,0.45);}
 
@@ -113,7 +159,13 @@
   .reveal.visible{opacity:1;transform:translateY(0);}
 
   @media (max-width:820px){
+    .cs-hero{padding-top:96px;}
     .cs-hero h1{font-size:32px;}
+    .glance{grid-template-columns:1fr 1fr;}
+    .glance div{border-left:none;border-top:1px solid var(--line);}
+    .glance div:first-child{border-top:none;}
+    .glance div:first-child,.glance div:last-child{grid-column:1 / -1;}
+    .glance div:nth-child(3){border-left:1px solid var(--line);}
     .decisions{grid-template-columns:1fr;}
     .proto-box{padding:32px 20px;}
     .screen figcaption{flex-direction:column;gap:4px;}
@@ -129,6 +181,17 @@
   </nav>
 </header>
 
+<nav class="subnav" id="subnav" aria-label="Case study sections">
+  <ul class="container">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#decisions">Design Decisions</a></li>
+    <li><a href="#screens">Screens</a></li>
+    <li><a href="#accessibility">Accessibility</a></li>
+  </ul>
+</nav>
+
+<a href="#overview" class="scroll-cue" id="scrollCue">Scroll to explore <i class="fa-solid fa-arrow-down"></i></a>
+
 <section class="cs-hero">
   <div class="container">
     <div class="eyebrow">Case Study</div>
@@ -138,6 +201,12 @@
       <a href="https://www.figma.com/proto/wYqO4lnb7Bky0xKkqSpZ7w/Untitled?page-id=13%3A2&node-id=14-6&starting-point-node-id=14%3A6&scaling=scale-down" target="_blank" rel="noopener" class="btn btn-primary btn-lg"><i class="fa-solid fa-play"></i>&nbsp; View clickable prototype</a>
       <span class="cta-note">Opens in Figma · best viewed on a laptop or desktop</span>
     </div>
+    <dl class="glance" aria-label="At a glance">
+      <div><dt>Role</dt><dd>UI/UX Designer (solo concept)</dd></div>
+      <div><dt>Tools</dt><dd>Figma, AI-assisted design</dd></div>
+      <div><dt>Timeline</dt><dd>October 2026</dd></div>
+      <div><dt>Deliverables</dt><dd>User journey, 7 screens, design system, clickable prototype</dd></div>
+    </dl>
     <div class="hero-shot"><img src="images/resonance/01-arrival.jpg" alt="Resonance Arrival screen: a plum glass welcome panel with a gold Begin button floating in a softly lit music studio"></div>
   </div>
 </section>
@@ -328,6 +397,25 @@
     entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.15 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const hero = document.querySelector('.cs-hero');
+  const subnav = document.getElementById('subnav');
+  const cue = document.getElementById('scrollCue');
+  const navLinks = [...subnav.querySelectorAll('a')];
+  const targets = navLinks.map(a => document.querySelector(a.getAttribute('href')));
+
+  function onScroll(){
+    cue.classList.toggle('gone', window.scrollY > 40);
+    subnav.classList.toggle('show', hero.getBoundingClientRect().bottom < 70);
+    const line = 140;
+    let current = -1;
+    targets.forEach((t, i) => { if (t.getBoundingClientRect().top <= line) current = i; });
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) current = targets.length - 1;
+    navLinks.forEach((a, i) => a.classList.toggle('active', i === current));
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
 </script>
 
 </body>
