@@ -138,6 +138,20 @@
   }
   .project-card .demo-link:hover{transform:translateY(-2px);opacity:0.9;}
 
+  .design-card{
+    display:grid;grid-template-columns:1.35fr 1fr;align-items:stretch;
+    background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;
+    transition:transform 0.2s, border-color 0.2s;
+  }
+  .design-card:hover{transform:translateY(-4px);border-color:var(--accent);}
+  .design-card .thumb{background:#1a0b1f;aspect-ratio:16/9;}
+  .design-card .thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .design-card .body{padding:30px;display:flex;flex-direction:column;}
+  .design-card h3{font-size:22px;margin-bottom:6px;}
+  .design-card .stack{font-size:12.5px;color:var(--accent);margin-bottom:14px;}
+  .design-card p{color:var(--muted);font-size:14.5px;flex:1;}
+  .design-card .more{margin-top:20px;font-size:13.5px;color:var(--accent);font-weight:600;}
+
   .contact-box{
     background:var(--card);border:1px solid var(--line);border-radius:14px;
     padding:48px;text-align:center;
@@ -172,6 +186,7 @@
     .about-grid{grid-template-columns:1fr;}
     .skills-wrap{grid-template-columns:repeat(2,1fr);}
     .projects-grid{grid-template-columns:1fr;}
+    .design-card{grid-template-columns:1fr;}
     .hero h1{font-size:36px;}
     .nav-links{
       position:fixed;top:70px;left:0;right:0;background:var(--bg-alt);
@@ -195,7 +210,8 @@
       <li><a href="#skills">Skills</a></li>
       <li><a href="#education">Education</a></li>
       <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
+      <li><a href="#design">Design</a></li>
+      <li><a href="#projects" id="projectsNavLink">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <button class="nav-toggle" id="navToggle"><i class="fa-solid fa-bars"></i></button>
@@ -207,7 +223,7 @@
     <div class="eyebrow">Hi there, I'm</div>
     <h1>K.L. <span class="accent">Chandana</span></h1>
     <div class="role">I am into <span id="typed"></span><span class="cursor">&nbsp;</span></div>
-    <p class="desc">Incoming M.S. Computer Science student at Arizona State University. I build full-stack applications, explore machine learning, and care about clean, scalable code — backed by 15 years of classical vocal training and the discipline that comes with it.</p>
+    <p class="desc">M.S. Computer Science student at Arizona State University. I build full-stack applications, explore machine learning, and care about clean, scalable code — backed by 15 years of classical vocal training and the discipline that comes with it.</p>
     <div class="cta-row">
       <a href="#projects" class="btn btn-primary">View Projects</a>
       <a href="#contact" class="btn btn-outline">Get In Touch</a>
@@ -228,7 +244,7 @@
       <div class="about-badge reveal">KLC</div>
       <div class="about-text reveal">
         <h3>I'm Chandana</h3>
-        <div class="role">Software Engineer &amp; Incoming MS CS Student</div>
+        <div class="role">Software Engineer &amp; MS CS Student</div>
         <p>Strong foundation in algorithms, data structures, software engineering, and machine learning. Experienced in designing full-stack applications in Python, Java, and JavaScript, and collaborating in Agile development environments.</p>
         <p>Passionate about writing clean, efficient code, solving challenging technical problems, and building scalable software systems.</p>
         <div class="about-meta">
@@ -338,7 +354,23 @@
   </div>
 </section>
 
-<section id="projects">
+<section id="design">
+  <div class="container">
+    <div class="eyebrow reveal">What I've Designed</div>
+    <h2 class="heading reveal">Design Work</h2>
+    <a href="resonance.html" class="design-card reveal">
+      <div class="thumb"><img src="images/resonance/01-arrival.jpg" alt="Resonance Arrival screen: a plum glass welcome panel with a gold Begin button floating in a softly lit music studio" loading="lazy"></div>
+      <div class="body">
+        <h3>Resonance</h3>
+        <div class="stack">VR / XR UI · Figma · Design System · Prototype</div>
+        <p>A VR interface concept for learning music by creating it. Full user journey, design system, and clickable prototype.</p>
+        <span class="more">Read case study →</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section id="projects" style="background:var(--bg-alt);">
   <div class="container">
     <div class="eyebrow reveal">What I've Built</div>
     <h2 class="heading reveal">Projects</h2>
@@ -346,7 +378,7 @@
   </div>
 </section>
 
-<section id="contact" style="background:var(--bg-alt);">
+<section id="contact">
   <div class="container">
     <div class="eyebrow reveal">Let's Talk</div>
     <h2 class="heading reveal">Get In Touch</h2>
@@ -494,6 +526,13 @@
     grid.appendChild(card);
     io.observe(card);
   });
+
+  if (!grid.children.length) {
+    document.getElementById('projects').hidden = true;
+    document.getElementById('projectsNavLink').parentElement.hidden = true;
+    document.getElementById('contact').style.background = 'var(--bg-alt)';
+    document.querySelector('.hero .cta-row a[href="#projects"]').setAttribute('href', '#design');
+  }
 
   const overlay = document.getElementById('modalOverlay');
   const modalTitle = document.getElementById('modalTitle');
